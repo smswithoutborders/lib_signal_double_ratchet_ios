@@ -11,6 +11,8 @@
 		3BCBA3BF2C502DCD00736B9B /* protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBA3BE2C502DCD00736B9B /* protocols.swift */; };
 		3BCBA3C12C502F6000736B9B /* keypairs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBA3C02C502F6000736B9B /* keypairs.swift */; };
 		3BCBA3C32C5030DD00736B9B /* SecurityCurve25519.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBA3C22C5030DD00736B9B /* SecurityCurve25519.swift */; };
+		3BCBA3C62C50331F00736B9B /* headers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBA3C52C50331F00736B9B /* headers.swift */; };
+		3BCBA3C82C50333200736B9B /* states.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBA3C72C50333200736B9B /* states.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,6 +33,8 @@
 		3BCBA3BE2C502DCD00736B9B /* protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = protocols.swift; sourceTree = "<group>"; };
 		3BCBA3C02C502F6000736B9B /* keypairs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = keypairs.swift; sourceTree = "<group>"; };
 		3BCBA3C22C5030DD00736B9B /* SecurityCurve25519.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityCurve25519.swift; sourceTree = "<group>"; };
+		3BCBA3C52C50331F00736B9B /* headers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = headers.swift; sourceTree = "<group>"; };
+		3BCBA3C72C50333200736B9B /* states.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = states.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +79,8 @@
 			isa = PBXGroup;
 			children = (
 				3BCBA3BE2C502DCD00736B9B /* protocols.swift */,
+				3BCBA3C52C50331F00736B9B /* headers.swift */,
+				3BCBA3C72C50333200736B9B /* states.swift */,
 			);
 			path = Ratchets;
 			sourceTree = "<group>";
@@ -138,7 +144,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				3BCBA3C12C502F6000736B9B /* keypairs.swift in Sources */,
+				3BCBA3C62C50331F00736B9B /* headers.swift in Sources */,
 				3BCBA3B82C502C8E00736B9B /* smswithoutborders_libsig_doubleratchet.swift in Sources */,
+				3BCBA3C82C50333200736B9B /* states.swift in Sources */,
 				3BCBA3C32C5030DD00736B9B /* SecurityCurve25519.swift in Sources */,
 				3BCBA3BF2C502DCD00736B9B /* protocols.swift in Sources */,
 			);
