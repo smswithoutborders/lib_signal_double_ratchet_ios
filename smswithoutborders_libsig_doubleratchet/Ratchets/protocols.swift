@@ -8,7 +8,6 @@
 import Foundation
 import CryptoKit
 
-
 class DHRatchet {
     init() {
         
@@ -45,7 +44,12 @@ class DHRatchet {
     }
     
     
-    static func ENCRYPT() {
+    static func ENCRYPT(mk: Data, plainText: String, associatedData: String) {
+        let hkdfOutput = CryptoHelper.getCipherMACParameters(mk: mk)
+        let key = hkdfOutput.prefix(32)
+        let range = 32..<64
+        let authenticationKey = hkdfOutput.subdata(in: range)
+        let iv = 64..<(64+16)
         
     }
     

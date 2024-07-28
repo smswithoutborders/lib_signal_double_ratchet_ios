@@ -6,16 +6,22 @@
 //
 
 import Foundation
+import CryptoKit
 
-
-func getCipherMACParameters(mk: Data) {
-    let len = 80
-    let info = "ENCRYPT"
-    let salt = Data(repeating: 0, count: len)
+class CryptoHelper {
     
-    return sharedSecret.hkdfDerivedSymmetricKey(
-        using: SHA256.self,
-        salt: Data(),
-        sharedInfo: "x25591_key_exchange".data(using: .utf8)!,
-        outputByteCount: 32)
+    static func getCipherMACParameters(mk: Data) -> Data {
+        let len = 80
+        let info = "ENCRYPT".data(using: .utf8)!
+        let salt = Data(repeating: 0, count: len)
+        
+        let key = SymmetricKey(data: mk)
+        
+        let symKey = HKDF<SHA256>.deriveKey(inputKeyMaterial: key,
+                              salt: salt, info: info, outputByteCount: 32)
+        
+        return symKey.withUnsafeBytes {
+            Data(Array($0))
+        }
+    }
 }

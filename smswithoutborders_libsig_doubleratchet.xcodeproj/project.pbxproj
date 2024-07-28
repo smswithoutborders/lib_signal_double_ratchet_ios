@@ -14,6 +14,7 @@
 		3BCBA3C62C50331F00736B9B /* headers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBA3C52C50331F00736B9B /* headers.swift */; };
 		3BCBA3C82C50333200736B9B /* states.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBA3C72C50333200736B9B /* states.swift */; };
 		3BDADAE42C56DF2700539E57 /* CryptoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDADAE32C56DF2700539E57 /* CryptoHelper.swift */; };
+		3BDADAE72C56F95200539E57 /* CryptoSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3BDADAE62C56F95200539E57 /* CryptoSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -44,6 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BDADAE72C56F95200539E57 /* CryptoSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,6 +106,9 @@
 			dependencies = (
 			);
 			name = smswithoutborders_libsig_doubleratchet;
+			packageProductDependencies = (
+				3BDADAE62C56F95200539E57 /* CryptoSwift */,
+			);
 			productName = smswithoutborders_libsig_doubleratchet;
 			productReference = 3BCBA3B42C502C8E00736B9B /* libsmswithoutborders_libsig_doubleratchet.a */;
 			productType = "com.apple.product-type.library.static";
@@ -132,6 +137,9 @@
 				Base,
 			);
 			mainGroup = 3BCBA3AB2C502C8E00736B9B;
+			packageReferences = (
+				3BDADAE52C56F95200539E57 /* XCRemoteSwiftPackageReference "CryptoSwift" */,
+			);
 			productRefGroup = 3BCBA3B52C502C8E00736B9B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -324,6 +332,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3BDADAE52C56F95200539E57 /* XCRemoteSwiftPackageReference "CryptoSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/krzyzanowskim/CryptoSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.8.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3BDADAE62C56F95200539E57 /* CryptoSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3BDADAE52C56F95200539E57 /* XCRemoteSwiftPackageReference "CryptoSwift" */;
+			productName = CryptoSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3BCBA3AC2C502C8E00736B9B /* Project object */;
 }
