@@ -54,11 +54,9 @@ class DHRatchet {
     
     static func ENCRYPT(mk: Data, 
                         plainText: String,
-                        associatedData: [UInt8]) throws -> (cipherText: [UInt8], mac: [UInt8]){
-        let hkdfOutput = try CryptoHelper.getCipherMACParameters(mk: mk)
-        let key = Array(hkdfOutput[0..<32])
-        let authenticationKey = Array(hkdfOutput[32..<64])
-        let iv = Array(hkdfOutput[64..<(64+16)])
+                        associatedData: [UInt8]) throws -> (cipherText: [UInt8], 
+                                                            mac: [UInt8]){
+        let (key, authKey, iv) = try CryptoHelper.getCipherMACParameters(mk: mk)
         
         let cipherText = try AES(
             key: key,
@@ -66,20 +64,34 @@ class DHRatchet {
             padding: .pkcs7).encrypt(Array(plainText.utf8))
         
         let mac = try CryptoHelper.buildVerificationHash(
-            authKey: authenticationKey,
-            associatedData: associatedData, 
+            authKey: authKey,
+            associatedData: associatedData,
             cipherText: cipherText)
         
         return (cipherText, mac)
     }
     
     
-    static func DECRYPT() {
+    static func DECRYPT(mk: Data,
+                        cipherText: [UInt8],
+                        associatedData: [UInt8]) throws -> [UInt8]{
+        let cipherText = try CryptoHelper.verifyCipherText(
+            mk: mk, _mac: cipherText, associatedData: associatedData)
         
+        let (key, authKey, iv) = try CryptoHelper.getCipherMACParameters(mk: mk)
+        
+        return try AES(
+            key: key,
+            blockMode: CBC(iv: iv),
+            padding: .pkcs7).decrypt(cipherText)
     }
     
     
-    static func CONCAT() {
-        
+    enum ProtocolError: Error {
+        case methodNotImplemented
+    }
+    
+    static func CONCAT(AD: [UInt8], headers: HEADERS) throws {
+        throw ProtocolError.methodNotImplemented
     }
 }
