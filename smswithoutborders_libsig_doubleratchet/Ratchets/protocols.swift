@@ -7,6 +7,7 @@
 
 import Foundation
 import CryptoKit
+import CryptoSwift
 
 class DHRatchet {
     init() {
@@ -37,20 +38,39 @@ class DHRatchet {
     }
     
     
-    static func KDF_CK(ck: SymmetricKey) -> (ck: Data, rk: Data){
-        let _ck = HMAC<SHA256>.authenticationCode(for: Data([0x01]), using: ck)
-        let mk = HMAC<SHA256>.authenticationCode(for: Data([0x02]), using: ck)
-        return (Data(_ck), Data(mk))
+    static func KDF_CK(ck: [UInt8]) throws  -> (ck: [UInt8], rk: [UInt8]){
+        let bytes1: [UInt8] = [0x01]
+        let bytes2: [UInt8] = [0x02]
+        
+        let _ck = try HMAC(key: ck, 
+                           variant: .sha2(.sha256)).authenticate(bytes1)
+        let mk = try HMAC(key: ck, 
+                          variant: .sha2(.sha256)).authenticate(bytes2)
+//        return (Data(_ck), Data(mk))
+        
+        return (_ck, mk)
     }
     
     
-    static func ENCRYPT(mk: Data, plainText: String, associatedData: String) {
-        let hkdfOutput = CryptoHelper.getCipherMACParameters(mk: mk)
-        let key = hkdfOutput.prefix(32)
-        let range = 32..<64
-        let authenticationKey = hkdfOutput.subdata(in: range)
-        let iv = 64..<(64+16)
+    static func ENCRYPT(mk: Data, 
+                        plainText: String,
+                        associatedData: [UInt8]) throws -> (cipherText: [UInt8], mac: [UInt8]){
+        let hkdfOutput = try CryptoHelper.getCipherMACParameters(mk: mk)
+        let key = Array(hkdfOutput[0..<32])
+        let authenticationKey = Array(hkdfOutput[32..<64])
+        let iv = Array(hkdfOutput[64..<(64+16)])
         
+        let cipherText = try AES(
+            key: key,
+            blockMode: CBC(iv: iv),
+            padding: .pkcs7).encrypt(Array(plainText.utf8))
+        
+        let mac = try CryptoHelper.buildVerificationHash(
+            authKey: authenticationKey,
+            associatedData: associatedData, 
+            cipherText: cipherText)
+        
+        return (cipherText, mac)
     }
     
     
