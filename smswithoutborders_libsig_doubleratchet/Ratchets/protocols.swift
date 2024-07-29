@@ -87,11 +87,7 @@ class DHRatchet {
     }
     
     
-    enum ProtocolError: Error {
-        case methodNotImplemented
-    }
-    
-    static func CONCAT(AD: [UInt8], headers: HEADERS) throws {
-        throw ProtocolError.methodNotImplemented
+    static func CONCAT(AD: [UInt8], headers: HEADERS) throws -> [UInt8] {
+        return AD + headers.getSerialized()
     }
 }
