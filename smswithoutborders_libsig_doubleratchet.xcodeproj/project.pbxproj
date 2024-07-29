@@ -15,7 +15,19 @@
 		3BCBA3C82C50333200736B9B /* states.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBA3C72C50333200736B9B /* states.swift */; };
 		3BDADAE42C56DF2700539E57 /* CryptoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDADAE32C56DF2700539E57 /* CryptoHelper.swift */; };
 		3BDADAE72C56F95200539E57 /* CryptoSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3BDADAE62C56F95200539E57 /* CryptoSwift */; };
+		3BDADAEF2C57C39300539E57 /* smswithoutborders_libsig_doubleratchet_Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDADAEE2C57C39300539E57 /* smswithoutborders_libsig_doubleratchet_Test.swift */; };
+		3BDADAF02C57C39300539E57 /* libsmswithoutborders_libsig_doubleratchet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BCBA3B42C502C8E00736B9B /* libsmswithoutborders_libsig_doubleratchet.a */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3BDADAF12C57C39300539E57 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3BCBA3AC2C502C8E00736B9B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3BCBA3B32C502C8E00736B9B;
+			remoteInfo = smswithoutborders_libsig_doubleratchet;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		3BCBA3B22C502C8E00736B9B /* CopyFiles */ = {
@@ -38,6 +50,8 @@
 		3BCBA3C52C50331F00736B9B /* headers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = headers.swift; sourceTree = "<group>"; };
 		3BCBA3C72C50333200736B9B /* states.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = states.swift; sourceTree = "<group>"; };
 		3BDADAE32C56DF2700539E57 /* CryptoHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoHelper.swift; sourceTree = "<group>"; };
+		3BDADAEC2C57C39300539E57 /* smswithoutborders_libsig_doubleratchet_Test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = smswithoutborders_libsig_doubleratchet_Test.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3BDADAEE2C57C39300539E57 /* smswithoutborders_libsig_doubleratchet_Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = smswithoutborders_libsig_doubleratchet_Test.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +63,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		3BDADAE92C57C39300539E57 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3BDADAF02C57C39300539E57 /* libsmswithoutborders_libsig_doubleratchet.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -56,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				3BCBA3B62C502C8E00736B9B /* smswithoutborders_libsig_doubleratchet */,
+				3BDADAED2C57C39300539E57 /* smswithoutborders_libsig_doubleratchet_Test */,
 				3BCBA3B52C502C8E00736B9B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -64,6 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				3BCBA3B42C502C8E00736B9B /* libsmswithoutborders_libsig_doubleratchet.a */,
+				3BDADAEC2C57C39300539E57 /* smswithoutborders_libsig_doubleratchet_Test.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -90,6 +114,14 @@
 			path = Ratchets;
 			sourceTree = "<group>";
 		};
+		3BDADAED2C57C39300539E57 /* smswithoutborders_libsig_doubleratchet_Test */ = {
+			isa = PBXGroup;
+			children = (
+				3BDADAEE2C57C39300539E57 /* smswithoutborders_libsig_doubleratchet_Test.swift */,
+			);
+			path = smswithoutborders_libsig_doubleratchet_Test;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -113,6 +145,24 @@
 			productReference = 3BCBA3B42C502C8E00736B9B /* libsmswithoutborders_libsig_doubleratchet.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		3BDADAEB2C57C39300539E57 /* smswithoutborders_libsig_doubleratchet_Test */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3BDADAF32C57C39300539E57 /* Build configuration list for PBXNativeTarget "smswithoutborders_libsig_doubleratchet_Test" */;
+			buildPhases = (
+				3BDADAE82C57C39300539E57 /* Sources */,
+				3BDADAE92C57C39300539E57 /* Frameworks */,
+				3BDADAEA2C57C39300539E57 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3BDADAF22C57C39300539E57 /* PBXTargetDependency */,
+			);
+			name = smswithoutborders_libsig_doubleratchet_Test;
+			productName = smswithoutborders_libsig_doubleratchet_Test;
+			productReference = 3BDADAEC2C57C39300539E57 /* smswithoutborders_libsig_doubleratchet_Test.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -124,6 +174,9 @@
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					3BCBA3B32C502C8E00736B9B = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					3BDADAEB2C57C39300539E57 = {
 						CreatedOnToolsVersion = 16.0;
 					};
 				};
@@ -145,9 +198,20 @@
 			projectRoot = "";
 			targets = (
 				3BCBA3B32C502C8E00736B9B /* smswithoutborders_libsig_doubleratchet */,
+				3BDADAEB2C57C39300539E57 /* smswithoutborders_libsig_doubleratchet_Test */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3BDADAEA2C57C39300539E57 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3BCBA3B02C502C8E00736B9B /* Sources */ = {
@@ -164,7 +228,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		3BDADAE82C57C39300539E57 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3BDADAEF2C57C39300539E57 /* smswithoutborders_libsig_doubleratchet_Test.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3BDADAF22C57C39300539E57 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3BCBA3B32C502C8E00736B9B /* smswithoutborders_libsig_doubleratchet */;
+			targetProxy = 3BDADAF12C57C39300539E57 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		3BCBA3B92C502C8E00736B9B /* Debug */ = {
@@ -310,6 +390,36 @@
 			};
 			name = Release;
 		};
+		3BDADAF42C57C39300539E57 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.afkanerd.smswithoutborders-libsig-doubleratchet-Test";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		3BDADAF52C57C39300539E57 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.afkanerd.smswithoutborders-libsig-doubleratchet-Test";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -327,6 +437,15 @@
 			buildConfigurations = (
 				3BCBA3BC2C502C8E00736B9B /* Debug */,
 				3BCBA3BD2C502C8E00736B9B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3BDADAF32C57C39300539E57 /* Build configuration list for PBXNativeTarget "smswithoutborders_libsig_doubleratchet_Test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3BDADAF42C57C39300539E57 /* Debug */,
+				3BDADAF52C57C39300539E57 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
