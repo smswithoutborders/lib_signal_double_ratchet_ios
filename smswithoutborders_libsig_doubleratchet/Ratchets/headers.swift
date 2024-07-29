@@ -22,7 +22,7 @@ class HEADERS : Equatable {
         self.N = N
     }
     
-    func getSerialized() -> Data {
+    func serialize() -> Data {
         // Convert PN to Data
         var bytesPN = Data(count: 4)
         bytesPN.withUnsafeMutableBytes {

@@ -20,13 +20,13 @@ struct smswithoutborders_libsig_doubleratchet_Test {
         let headers = HEADERS(dhPair: publicKey,
                       PN: 0,
                       N: 0)
-        let serialized = headers.getSerialized()
+        let serialized = headers.serialize()
         serialized.withUnsafeBytes { data in
             print(Array(data))
         }
 
         let headers1 = HEADERS.deserialize(serializedData: serialized)!
-        let serialized1 = headers1.getSerialized()
+        let serialized1 = headers1.serialize()
         serialized1.withUnsafeBytes { data in
             print(Array(data))
         }

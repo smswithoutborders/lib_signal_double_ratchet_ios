@@ -88,6 +88,6 @@ class DHRatchet {
     
     
     static func CONCAT(AD: [UInt8], headers: HEADERS) throws -> [UInt8] {
-        return AD + headers.getSerialized()
+        return AD + headers.serialize()
     }
 }
