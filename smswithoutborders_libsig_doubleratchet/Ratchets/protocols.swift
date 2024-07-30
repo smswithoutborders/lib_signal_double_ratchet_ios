@@ -10,10 +10,6 @@ import CryptoKit
 import CryptoSwift
 
 class DHRatchet {
-    init() {
-        
-    }
-    
     
     static func GENERATE_DH(keystoreAlias: String) throws -> Curve25519.KeyAgreement.PrivateKey {
         let (privateKey, secKey) = try SecurityCurve25519.generateKeyPair(keystoreAlias: keystoreAlias)
@@ -27,14 +23,18 @@ class DHRatchet {
     }
     
     
-    static func KDF_RK(rk: SharedSecret,
-                       publicKey: Curve25519.KeyAgreement.PublicKey) throws -> SymmetricKey {
+    static func KDF_RK(rk: SharedSecret, _dh: SymmetricKey) throws -> (rk: [UInt8], ck: [UInt8]) {
+        let dh = _dh.withUnsafeBytes {
+            Data(Array($0))
+        }
         let info = "KDF_RK"
         return rk.hkdfDerivedSymmetricKey(
-                using: SHA256.self,
-                salt: Data(),
-                sharedInfo: info.data(using: .utf8)!,
-                outputByteCount: 32)
+            using: SHA256.self,
+            salt: dh,
+            sharedInfo: info.data(using: .utf8)!,
+            outputByteCount: 32*2).withUnsafeBytes {
+                return (Array(Array($0)[0..<32]), Array(Array($0)[32..<64]))
+            }
     }
     
     

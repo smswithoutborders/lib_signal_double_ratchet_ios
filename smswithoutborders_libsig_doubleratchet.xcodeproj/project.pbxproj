@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		3BCBA3B82C502C8E00736B9B /* smswithoutborders_libsig_doubleratchet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBA3B72C502C8E00736B9B /* smswithoutborders_libsig_doubleratchet.swift */; };
 		3BCBA3BF2C502DCD00736B9B /* protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBA3BE2C502DCD00736B9B /* protocols.swift */; };
-		3BCBA3C12C502F6000736B9B /* keypairs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBA3C02C502F6000736B9B /* keypairs.swift */; };
 		3BCBA3C32C5030DD00736B9B /* SecurityCurve25519.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBA3C22C5030DD00736B9B /* SecurityCurve25519.swift */; };
 		3BCBA3C62C50331F00736B9B /* headers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBA3C52C50331F00736B9B /* headers.swift */; };
 		3BCBA3C82C50333200736B9B /* states.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCBA3C72C50333200736B9B /* states.swift */; };
@@ -45,7 +44,6 @@
 		3BCBA3B42C502C8E00736B9B /* libsmswithoutborders_libsig_doubleratchet.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libsmswithoutborders_libsig_doubleratchet.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BCBA3B72C502C8E00736B9B /* smswithoutborders_libsig_doubleratchet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = smswithoutborders_libsig_doubleratchet.swift; sourceTree = "<group>"; };
 		3BCBA3BE2C502DCD00736B9B /* protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = protocols.swift; sourceTree = "<group>"; };
-		3BCBA3C02C502F6000736B9B /* keypairs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = keypairs.swift; sourceTree = "<group>"; };
 		3BCBA3C22C5030DD00736B9B /* SecurityCurve25519.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityCurve25519.swift; sourceTree = "<group>"; };
 		3BCBA3C52C50331F00736B9B /* headers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = headers.swift; sourceTree = "<group>"; };
 		3BCBA3C72C50333200736B9B /* states.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = states.swift; sourceTree = "<group>"; };
@@ -97,7 +95,6 @@
 			children = (
 				3BCBA3C42C50313100736B9B /* Ratchets */,
 				3BCBA3B72C502C8E00736B9B /* smswithoutborders_libsig_doubleratchet.swift */,
-				3BCBA3C02C502F6000736B9B /* keypairs.swift */,
 				3BCBA3C22C5030DD00736B9B /* SecurityCurve25519.swift */,
 				3BDADAE32C56DF2700539E57 /* CryptoHelper.swift */,
 			);
@@ -218,7 +215,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3BCBA3C12C502F6000736B9B /* keypairs.swift in Sources */,
 				3BDADAE42C56DF2700539E57 /* CryptoHelper.swift in Sources */,
 				3BCBA3C62C50331F00736B9B /* headers.swift in Sources */,
 				3BCBA3B82C502C8E00736B9B /* smswithoutborders_libsig_doubleratchet.swift in Sources */,
