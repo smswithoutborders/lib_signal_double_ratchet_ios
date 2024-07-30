@@ -23,14 +23,14 @@ class DHRatchet {
     }
     
     
-    static func KDF_RK(rk: SharedSecret, _dh: SymmetricKey) throws -> (rk: [UInt8], ck: [UInt8]) {
-        let dh = _dh.withUnsafeBytes {
+    static func KDF_RK(rk: SharedSecret, dh: SymmetricKey) throws -> (rk: [UInt8], ck: [UInt8]) {
+        let _dh = dh.withUnsafeBytes {
             Data(Array($0))
         }
         let info = "KDF_RK"
         return rk.hkdfDerivedSymmetricKey(
             using: SHA256.self,
-            salt: dh,
+            salt: _dh,
             sharedInfo: info.data(using: .utf8)!,
             outputByteCount: 32*2).withUnsafeBytes {
                 return (Array(Array($0)[0..<32]), Array(Array($0)[32..<64]))
@@ -52,27 +52,26 @@ class DHRatchet {
     }
     
     
-    static func ENCRYPT(mk: Data, 
-                        plainText: String,
-                        associatedData: [UInt8]) throws -> (cipherText: [UInt8], 
-                                                            mac: [UInt8]){
+    static func ENCRYPT(mk: [UInt8], 
+                        plainText: [UInt8],
+                        associatedData: [UInt8]) throws -> [UInt8]{
         let (key, authKey, iv) = try CryptoHelper.getCipherMACParameters(mk: mk)
         
         let cipherText = try AES(
             key: key,
             blockMode: CBC(iv: iv),
-            padding: .pkcs7).encrypt(Array(plainText.utf8))
+            padding: .pkcs7).encrypt(plainText)
         
         let mac = try CryptoHelper.buildVerificationHash(
             authKey: authKey,
             associatedData: associatedData,
             cipherText: cipherText)
         
-        return (cipherText, mac)
+        return cipherText + mac
     }
     
     
-    static func DECRYPT(mk: Data,
+    static func DECRYPT(mk: [UInt8],
                         cipherText: [UInt8],
                         associatedData: [UInt8]) throws -> [UInt8]{
         let cipherText = try CryptoHelper.verifyCipherText(

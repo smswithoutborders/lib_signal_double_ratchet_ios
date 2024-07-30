@@ -15,20 +15,36 @@ class smswithoutborders_libsig_doubleratchet {
         state.DHs = try DHRatchet.GENERATE_DH(keystoreAlias: keystoreAlias)
         state.DHr = bobDhPubKey
         (state.RK, state.CKs) = try DHRatchet.KDF_RK(rk: SK,
-                                                 _dh: try DHRatchet.DH(privateKey: state.DHs!, peerPublicKey: state.DHr!))
-        state.DHr = bobDhPubKey
-        state.DHr = bobDhPubKey
-        state.DHr = bobDhPubKey
-        state.DHr = bobDhPubKey
-        state.DHr = bobDhPubKey
+            dh: try DHRatchet.DH(privateKey: state.DHs!, peerPublicKey: state.DHr!))
+        state.CKr = nil
+        state.Ns = 0
+        state.Nr = 0
+        state.PN = 0
+        state.MKSKIPPED = [:]
     }
     
-    func bobInit() {
-        
+    static func bobInit(state: States, SK: [UInt8], bobKeyPair: Curve25519.KeyAgreement.PrivateKey) {
+        state.DHs = bobKeyPair
+        state.DHr = nil
+        state.RK = SK
+        state.CKs = nil
+        state.CKr = nil
+        state.Ns = 0
+        state.Nr = 0
+        state.PN = 0
+        state.MKSKIPPED = [:]
     }
     
-    func encrypt() {
-        
+    func encrypt(state: States, data: [UInt8], AD: [UInt8]) throws -> (header: HEADERS, cipherText: [UInt8]) {
+        var mk: [UInt8]
+        (state.CKs, mk) = try DHRatchet.KDF_CK(ck: state.CKs!)
+        let header = HEADERS(dhPair: state.DHs!.publicKey, PN: UInt32(state.PN), N: UInt32(state.Ns))
+        state.Ns += 1
+        return (header,
+                try DHRatchet.ENCRYPT(
+                    mk: mk,
+                    plainText: data,
+                    associatedData: DHRatchet.CONCAT(AD: AD, headers: header)))
     }
     
     func decrypt() {

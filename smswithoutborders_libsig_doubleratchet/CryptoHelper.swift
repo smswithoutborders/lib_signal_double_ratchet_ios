@@ -15,13 +15,13 @@ class CryptoHelper {
         case invalidMac
     }
     
-    static func getCipherMACParameters(mk: Data) throws ->
+    static func getCipherMACParameters(mk: [UInt8]) throws ->
     (key: [UInt8], authenticationKey: [UInt8], salt: [UInt8]){
         let len = 80
         let info = [UInt8]("ENCRYPT".data(using: .utf8)!)
         let salt = [UInt8](Data(repeating: 0, count: len))
         
-        let hkdfOutput = try HKDF(password: [UInt8](mk),
+        let hkdfOutput = try HKDF(password: mk,
              salt: salt,
              info: info,
              keyLength: len)
@@ -45,7 +45,7 @@ class CryptoHelper {
         }
     
     static func verifyCipherText(
-        mk: Data, _mac: [UInt8], associatedData: [UInt8]) throws -> [UInt8] {
+        mk: [UInt8], _mac: [UInt8], associatedData: [UInt8]) throws -> [UInt8] {
             let (key, authKey, iv) = try getCipherMACParameters(mk: mk)
             
             let cipherText: [UInt8] = Array(_mac[0..<(_mac.count - SHA256.byteCount)])
