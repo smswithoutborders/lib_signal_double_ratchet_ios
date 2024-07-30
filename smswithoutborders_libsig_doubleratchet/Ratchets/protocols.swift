@@ -9,7 +9,24 @@ import Foundation
 import CryptoKit
 import CryptoSwift
 
-class DHRatchet {
+class Ratchet {
+    static func DHRatchet(state: States, header: HEADERS, keystoreAlias: String) throws {
+        state.PN = state.Ns
+        state.Ns = 0
+        state.Nr = 0
+        
+        state.DHr = header.dh
+        var sharedSecret = try DH(privateKey: state.DHs!, peerPublicKey: state.DHr!).withUnsafeBytes { data in
+            return Array(data)
+        }
+        (state.RK, state.CKr) = try KDF_RK(rk: state.RK!, dh: sharedSecret)
+        state.DHs = try GENERATE_DH(keystoreAlias: keystoreAlias)
+        sharedSecret = try DH(privateKey: state.DHs!, peerPublicKey: state.DHr!).withUnsafeBytes { data in
+            return Array(data)
+        }
+        (state.RK, state.CKs) = try KDF_RK(rk: state.RK!, dh: sharedSecret)
+    }
+
     
     static func GENERATE_DH(keystoreAlias: String) throws -> Curve25519.KeyAgreement.PrivateKey {
         let (privateKey, secKey) = try SecurityCurve25519.generateKeyPair(keystoreAlias: keystoreAlias)
@@ -17,22 +34,23 @@ class DHRatchet {
     }
     
     static func DH(privateKey: Curve25519.KeyAgreement.PrivateKey,
-                   peerPublicKey: Curve25519.KeyAgreement.PublicKey) throws -> SymmetricKey {
+                   peerPublicKey: Curve25519.KeyAgreement.PublicKey) throws -> [UInt8] {
         return try SecurityCurve25519.calculateSharedSecret(
-            privateKey: privateKey, publicKey: peerPublicKey)
+            privateKey: privateKey, publicKey: peerPublicKey).withUnsafeBytes { data in
+                return Array(data)
+            }
     }
     
     
-    static func KDF_RK(rk: SharedSecret, dh: SymmetricKey) throws -> (rk: [UInt8], ck: [UInt8]) {
-        let _dh = dh.withUnsafeBytes {
-            Data(Array($0))
-        }
+    static func KDF_RK(rk: [UInt8], dh: [UInt8]) throws -> (rk: [UInt8], ck: [UInt8]) {
         let info = "KDF_RK"
-        return rk.hkdfDerivedSymmetricKey(
-            using: SHA256.self,
-            salt: _dh,
-            sharedInfo: info.data(using: .utf8)!,
-            outputByteCount: 32*2).withUnsafeBytes {
+        
+        let hkdfOutput = try HKDF(
+            password: rk,
+            salt: dh,
+            info: info.bytes,
+             keyLength: 32*2)
+            .calculate().withUnsafeBytes {
                 return (Array(Array($0)[0..<32]), Array(Array($0)[32..<64]))
             }
     }
