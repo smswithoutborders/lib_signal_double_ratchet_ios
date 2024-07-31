@@ -7,7 +7,7 @@
 
 import CryptoKit
 
-class smswithoutborders_libsig_doubleratchet {
+class Ratchet {
     enum RatchetErrors: Error {
         case maxSkipExceeded
     }
@@ -16,11 +16,11 @@ class smswithoutborders_libsig_doubleratchet {
     static func aliceInit(state: States,
                           SK: [UInt8],
                           bobDhPubKey: Curve25519.KeyAgreement.PublicKey,
-                          keystoreAlias: String) throws {
-        state.DHs = try Ratchet.GENERATE_DH(keystoreAlias: keystoreAlias)
+                          keystoreAlias: String?) throws {
+        state.DHs = try RatchetProtocols.GENERATE_DH(keystoreAlias: keystoreAlias ?? nil)
         state.DHr = bobDhPubKey
-        (state.RK, state.CKs) = try Ratchet.KDF_RK(rk: SK,
-            dh: try Ratchet.DH(privateKey: state.DHs!, peerPublicKey: state.DHr!))
+        (state.RK, state.CKs) = try RatchetProtocols.KDF_RK(rk: SK,
+            dh: try RatchetProtocols.DH(privateKey: state.DHs!, peerPublicKey: state.DHr!))
         state.CKr = nil
         state.Ns = 0
         state.Nr = 0
@@ -42,17 +42,17 @@ class smswithoutborders_libsig_doubleratchet {
     
     static func encrypt(state: States, data: [UInt8], AD: [UInt8]) throws -> (header: HEADERS, cipherText: [UInt8]) {
         var mk: [UInt8]
-        (state.CKs, mk) = try Ratchet.KDF_CK(ck: state.CKs!)
+        (state.CKs, mk) = try RatchetProtocols.KDF_CK(ck: state.CKs!)
         let header = HEADERS(dhPair: state.DHs!.publicKey, PN: UInt32(state.PN), N: UInt32(state.Ns))
         state.Ns += 1
         return (header,
-                try Ratchet.ENCRYPT(
+                try RatchetProtocols.ENCRYPT(
                     mk: mk,
                     plainText: data,
-                    associatedData: Ratchet.CONCAT(AD: AD, headers: header)))
+                    associatedData: RatchetProtocols.CONCAT(AD: AD, headers: header)))
     }
     
-    static func decrypt(state: States, header: HEADERS, cipherText: [UInt8], AD: [UInt8], keystoreAlias: String) throws -> [UInt8] {
+    static func decrypt(state: States, header: HEADERS, cipherText: [UInt8], AD: [UInt8], keystoreAlias: String?) throws -> [UInt8] {
         let plaintext = try trySkippedMessageKeys(state: state, header: header, cipherText: cipherText, AD: AD)
         if plaintext != nil {
             return plaintext!
@@ -60,14 +60,14 @@ class smswithoutborders_libsig_doubleratchet {
 
         if header.dh.rawRepresentation != state.DHr?.rawRepresentation {
             try skipMessageKeys(state: state, until: Int(header.PN))
-            try Ratchet.DHRatchet(state: state, header: header, keystoreAlias: keystoreAlias)
+            try RatchetProtocols.DHRatchet(state: state, header: header, keystoreAlias: keystoreAlias)
         }
 
         try skipMessageKeys(state: state, until: Int(header.N))
         let mk: [UInt8]
-        (state.CKr, mk) = try Ratchet.KDF_CK(ck: state.CKr!)
+        (state.CKr, mk) = try RatchetProtocols.KDF_CK(ck: state.CKr!)
         state.Nr += 1
-        return try Ratchet.DECRYPT(mk: mk, cipherText: cipherText, associatedData: Ratchet.CONCAT(AD: AD, headers: header))
+        return try RatchetProtocols.DECRYPT(mk: mk, cipherText: cipherText, associatedData: RatchetProtocols.CONCAT(AD: AD, headers: header))
     }
     
     private static func trySkippedMessageKeys(state: States, header: HEADERS, cipherText: [UInt8], AD: [UInt8]) throws -> [UInt8]? {
@@ -78,7 +78,7 @@ class smswithoutborders_libsig_doubleratchet {
         if (state.MKSKIPPED.contains { $0.key == key }) {
             let mk = state.MKSKIPPED[key]
             state.MKSKIPPED.removeValue(forKey: key)
-            return try Ratchet.DECRYPT(mk: mk!, cipherText: cipherText, associatedData: AD)
+            return try RatchetProtocols.DECRYPT(mk: mk!, cipherText: cipherText, associatedData: AD)
         }
         return nil
     }
@@ -94,7 +94,7 @@ class smswithoutborders_libsig_doubleratchet {
                     return Array(data)
                 }
                 let mk: [UInt8]
-                (state.CKr, mk) = try Ratchet.KDF_CK(ck: state.CKr!)
+                (state.CKr, mk) = try RatchetProtocols.KDF_CK(ck: state.CKr!)
                 state.MKSKIPPED[Commons.Pair(first: dhrBytes, second: state.Nr)] = mk
             }
         }

@@ -9,8 +9,8 @@ import Foundation
 import CryptoKit
 import CryptoSwift
 
-class Ratchet {
-    static func DHRatchet(state: States, header: HEADERS, keystoreAlias: String) throws {
+class RatchetProtocols {
+    static func DHRatchet(state: States, header: HEADERS, keystoreAlias: String? = nil) throws {
         state.PN = state.Ns
         state.Ns = 0
         state.Nr = 0
@@ -28,7 +28,7 @@ class Ratchet {
     }
 
     
-    static func GENERATE_DH(keystoreAlias: String) throws -> Curve25519.KeyAgreement.PrivateKey {
+    static func GENERATE_DH(keystoreAlias: String? = nil) throws -> Curve25519.KeyAgreement.PrivateKey {
         let (privateKey, secKey) = try SecurityCurve25519.generateKeyPair(keystoreAlias: keystoreAlias)
         return privateKey
     }

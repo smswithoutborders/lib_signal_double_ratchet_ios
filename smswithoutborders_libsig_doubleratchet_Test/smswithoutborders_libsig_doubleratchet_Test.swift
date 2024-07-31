@@ -66,12 +66,60 @@ struct smswithoutborders_libsig_doubleratchet_Test {
         states.CKr = "CKr".data(using: .utf8)?.withUnsafeBytes { data in
             return Array(data)
         }
-        states.MKSKIPPED = [([rprikey:0]):d!, ([rpubkey:1]): d!]
+        states.MKSKIPPED = [Commons.Pair(first: rprikey, second: 0):d!, Commons.Pair(first:rpubkey, second: 1): d!]
         
         let sStates = states.serialized()
         let states1 = try States.deserialize(data: sStates)
         
         XCTAssertEqual(states, states1)
+    }
+    
+    @Test func testRatchets() async throws {
+        // Derive shared key
+        let alicePrivateKey = Curve25519.KeyAgreement.PrivateKey()
+        let alicePublicKey = alicePrivateKey.publicKey
+        
+        let bobPrivateKey = Curve25519.KeyAgreement.PrivateKey()
+        let bobPublicKey = bobPrivateKey.publicKey
+        
+        let aliceSharedSecret = try alicePrivateKey.sharedSecretFromKeyAgreement(with: bobPublicKey)
+        let bobSharedSecret = try alicePrivateKey.sharedSecretFromKeyAgreement(with: bobPublicKey)
+        
+        XCTAssertEqual(aliceSharedSecret, bobSharedSecret)
+        
+        let SK = aliceSharedSecret.withUnsafeBytes { data in
+            return Array(data)
+        }
+        
+        let aliceState = States()
+        
+        try Ratchet.aliceInit(
+            state: aliceState,
+            SK: SK,
+            bobDhPubKey: bobPublicKey,
+            keystoreAlias: nil)
+        
+        let bobState = States()
+        Ratchet.bobInit(
+            state: bobState, 
+            SK: SK,
+            bobKeyPair: bobPrivateKey)
+        
+        let originalText = "Hello World".bytes
+        
+        let (header, aliceCipherText) = try Ratchet.encrypt(
+            state: aliceState,
+            data: originalText,
+            AD: bobPublicKey.rawRepresentation.bytes)
+        
+        let plainText = try Ratchet.decrypt(
+            state: bobState,
+            header: header,
+            cipherText: aliceCipherText,
+            AD: bobPublicKey.rawRepresentation.bytes,
+            keystoreAlias: nil)
+        
+        XCTAssertEqual(originalText, plainText)
     }
 
 }

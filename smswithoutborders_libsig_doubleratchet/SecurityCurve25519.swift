@@ -17,7 +17,7 @@ class SecurityCurve25519 {
         case KeychainFailedToRead
     }
 
-    public static func generateKeyPair(keystoreAlias: String) throws -> 
+    public static func generateKeyPair(keystoreAlias: String? = nil) throws ->
     (privateKey: Curve25519.KeyAgreement.PrivateKey, secKey: SecKey) {
         let privateKey = Curve25519.KeyAgreement.PrivateKey()
         let publicKey = privateKey.publicKey
@@ -34,21 +34,23 @@ class SecurityCurve25519 {
             throw Exceptions.FailedToCreateSecKey
         }
         
-        // Describe the add operation.
-        let query = [kSecClass: kSecClassKey, kSecAttrApplicationTag: keystoreAlias,
-                     kSecAttrAccessible: kSecAttrAccessibleWhenUnlocked,
-                     kSecUseDataProtectionKeychain: true,
-                  kSecValueRef: secKey] as [String: Any]
+        if keystoreAlias != nil {
+            // Describe the add operation.
+            let query = [kSecClass: kSecClassKey, kSecAttrApplicationTag: keystoreAlias,
+                         kSecAttrAccessible: kSecAttrAccessibleWhenUnlocked,
+                         kSecUseDataProtectionKeychain: true,
+                      kSecValueRef: secKey] as [String: Any]
 
 
-        // Add the key to the keychain.
-        let status = SecItemAdd(query as CFDictionary, nil)
-        guard status == errSecSuccess else {
-            if status == errSecDuplicateItem {
-                throw Exceptions.DuplicateKeys
+            // Add the key to the keychain.
+            let status = SecItemAdd(query as CFDictionary, nil)
+            guard status == errSecSuccess else {
+                if status == errSecDuplicateItem {
+                    throw Exceptions.DuplicateKeys
+                }
+                print(status)
+                throw Exceptions.FailedToStoreItem
             }
-            print(status)
-            throw Exceptions.FailedToStoreItem
         }
         return (privateKey, secKey)
     }
