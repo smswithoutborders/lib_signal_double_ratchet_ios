@@ -96,6 +96,7 @@ class Ratchet {
                 let mk: [UInt8]
                 (state.CKr, mk) = try RatchetProtocols.KDF_CK(ck: state.CKr!)
                 state.MKSKIPPED[Commons.Pair(first: dhrBytes, second: state.Nr)] = mk
+                state.Nr += 1
             }
         }
     }

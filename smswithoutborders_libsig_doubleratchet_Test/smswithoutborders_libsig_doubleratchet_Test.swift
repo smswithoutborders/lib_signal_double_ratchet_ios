@@ -107,7 +107,7 @@ struct smswithoutborders_libsig_doubleratchet_Test {
         
         let originalText = "Hello World".bytes
         
-        let (header, aliceCipherText) = try Ratchet.encrypt(
+        var (header, aliceCipherText) = try Ratchet.encrypt(
             state: aliceState,
             data: originalText,
             AD: bobPublicKey.rawRepresentation.bytes)
@@ -120,6 +120,25 @@ struct smswithoutborders_libsig_doubleratchet_Test {
             keystoreAlias: nil)
         
         XCTAssertEqual(originalText, plainText)
+        
+        
+        // Skipped messages
+        for i in 0..<10 {
+            print("Iterating: \(i)")
+            (header, aliceCipherText) = try Ratchet.encrypt(
+                state: aliceState,
+                data: originalText,
+                AD: bobPublicKey.rawRepresentation.bytes)
+        }
+        
+        let skippedPlainText = try Ratchet.decrypt(
+            state: bobState,
+            header: header,
+            cipherText: aliceCipherText,
+            AD: bobPublicKey.rawRepresentation.bytes,
+            keystoreAlias: nil)
+        
+        XCTAssertEqual(originalText, skippedPlainText)
     }
 
 }
