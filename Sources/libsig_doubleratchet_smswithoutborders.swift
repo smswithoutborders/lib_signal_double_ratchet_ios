@@ -1,3 +1,5 @@
+// The Swift Programming Language
+// https://docs.swift.org/swift-book
 //
 //  smswithoutborders_libsig_doubleratchet.swift
 //  smswithoutborders_libsig_doubleratchet

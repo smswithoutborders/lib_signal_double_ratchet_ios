@@ -1,3 +1,5 @@
+import Testing
+import CryptoKit
 //
 //  smswithoutborders_libsig_doubleratchet_Test.swift
 //  smswithoutborders_libsig_doubleratchet_Test
@@ -8,8 +10,7 @@
 import Testing
 import XCTest
 
-@testable import smswithoutborders_libsig_doubleratchet
-import CryptoKit
+@testable import libsig_doubleratchet_smswithoutborders
 
 struct smswithoutborders_libsig_doubleratchet_Test {
     
@@ -101,22 +102,24 @@ struct smswithoutborders_libsig_doubleratchet_Test {
         
         let bobState = States()
         Ratchet.bobInit(
-            state: bobState, 
+            state: bobState,
             SK: SK,
             bobKeyPair: bobPrivateKey)
         
-        let originalText = "Hello World".bytes
+        let originalText = "Hello World".data(using: .utf8)?.withUnsafeBytes { data in
+            return Array(data)
+        }
         
         var (header, aliceCipherText) = try Ratchet.encrypt(
             state: aliceState,
-            data: originalText,
-            AD: bobPublicKey.rawRepresentation.bytes)
+            data: originalText!,
+            AD: bobPublicKey.rawRepresentation.withUnsafeBytes {data in return Array(data)})
         
         let plainText = try Ratchet.decrypt(
             state: bobState,
             header: header,
             cipherText: aliceCipherText,
-            AD: bobPublicKey.rawRepresentation.bytes,
+            AD: bobPublicKey.rawRepresentation.withUnsafeBytes {data in return Array(data)},
             keystoreAlias: nil)
         
         XCTAssertEqual(originalText, plainText)
@@ -127,29 +130,29 @@ struct smswithoutborders_libsig_doubleratchet_Test {
             print("Iterating: \(i)")
             (header, aliceCipherText) = try Ratchet.encrypt(
                 state: aliceState,
-                data: originalText,
-                AD: bobPublicKey.rawRepresentation.bytes)
+                data: originalText!,
+                AD: bobPublicKey.rawRepresentation.withUnsafeBytes { data in return Array(data) })
         }
         
         let skippedPlainText = try Ratchet.decrypt(
             state: bobState,
             header: header,
             cipherText: aliceCipherText,
-            AD: bobPublicKey.rawRepresentation.bytes,
+            AD: bobPublicKey.rawRepresentation.withUnsafeBytes { data in return Array(data)},
             keystoreAlias: nil)
         
         XCTAssertEqual(originalText, skippedPlainText)
         
         var (header1, bobCipherText) = try Ratchet.encrypt(
             state: bobState,
-            data: originalText,
-            AD: alicePublicKey.rawRepresentation.bytes)
+            data: originalText!,
+            AD: alicePublicKey.rawRepresentation.withUnsafeBytes { data in return Array(data)})
         
         let plainText1 = try Ratchet.decrypt(
             state: aliceState,
             header: header1,
             cipherText: bobCipherText,
-            AD: alicePublicKey.rawRepresentation.bytes,
+            AD: alicePublicKey.rawRepresentation.withUnsafeBytes { data in return Array(data)},
             keystoreAlias: nil)
         
         XCTAssertEqual(originalText, plainText1)
