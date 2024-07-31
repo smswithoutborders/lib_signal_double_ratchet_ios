@@ -45,7 +45,7 @@ class Ratchet {
     static func KDF_RK(rk: [UInt8], dh: [UInt8]) throws -> (rk: [UInt8], ck: [UInt8]) {
         let info = "KDF_RK"
         
-        let hkdfOutput = try HKDF(
+        return try HKDF(
             password: rk,
             salt: dh,
             info: info.bytes,

@@ -33,7 +33,7 @@ class States: Equatable {
     
     var PN = 0
     
-    var MKSKIPPED: [([[UInt8]: Int]): [UInt8]]?
+    var MKSKIPPED: [Commons.Pair: [UInt8]] = [:]
     
     func serialized() -> Data {
         let privateKey = self.DHs!.rawRepresentation.base64EncodedString()
@@ -89,7 +89,7 @@ class States: Equatable {
         state.DHr = try Curve25519.KeyAgreement.PublicKey.init(rawRepresentation: publicKey!)
 
         if let mkSkippedData = Data(base64Encoded: String(components[8])),
-           let decodedDict = try? JSONDecoder().decode([([[UInt8]: Int]): [UInt8]].self, from: mkSkippedData) {
+           let decodedDict = try? JSONDecoder().decode([Commons.Pair: [UInt8]].self, from: mkSkippedData) {
             state.MKSKIPPED = decodedDict
         }
         
