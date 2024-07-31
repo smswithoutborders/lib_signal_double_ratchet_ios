@@ -139,6 +139,20 @@ struct smswithoutborders_libsig_doubleratchet_Test {
             keystoreAlias: nil)
         
         XCTAssertEqual(originalText, skippedPlainText)
+        
+        var (header1, bobCipherText) = try Ratchet.encrypt(
+            state: bobState,
+            data: originalText,
+            AD: alicePublicKey.rawRepresentation.bytes)
+        
+        let plainText1 = try Ratchet.decrypt(
+            state: aliceState,
+            header: header1,
+            cipherText: bobCipherText,
+            AD: alicePublicKey.rawRepresentation.bytes,
+            keystoreAlias: nil)
+        
+        XCTAssertEqual(originalText, plainText1)
     }
 
 }
