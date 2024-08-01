@@ -35,7 +35,7 @@ public class States: Equatable {
     
     var MKSKIPPED: [Commons.Pair: [UInt8]] = [:]
     
-    init() {
+    public init() {
         
     }
     
