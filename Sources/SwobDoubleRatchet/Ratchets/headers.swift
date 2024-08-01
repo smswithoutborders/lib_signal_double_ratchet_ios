@@ -91,7 +91,7 @@ public class HEADERS : Equatable {
                        N: UInt32(Int(n)))
     }
     
-    static func == (lhs: HEADERS, rhs: HEADERS) -> Bool {
+    public static func == (lhs: HEADERS, rhs: HEADERS) -> Bool {
         return (lhs.PN == rhs.PN &&
                 lhs.N == rhs.N &&
                 lhs.dh.rawRepresentation == rhs.dh.rawRepresentation)

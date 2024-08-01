@@ -96,7 +96,7 @@ public class States: Equatable {
         return state
     }
     
-    static func == (lhs: States, rhs: States) -> Bool {
+    public static func == (lhs: States, rhs: States) -> Bool {
         return lhs.Ns == rhs.Ns &&
         lhs.Nr == rhs.Nr &&
         lhs.PN == rhs.PN &&
