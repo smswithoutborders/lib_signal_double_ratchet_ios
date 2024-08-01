@@ -4,13 +4,13 @@
 import PackageDescription
 
 let package = Package(
-    name: "libsig_doubleratchet_smswithoutborders",
+    name: "SwobDoubleRatchet",
     platforms: [.macOS(.v14), .iOS("13.0"), .watchOS(.v8)],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "libsig_doubleratchet_smswithoutborders",
-            targets: ["libsig_doubleratchet_smswithoutborders"]),
+            name: "SwobDoubleRatchet",
+            targets: ["SwobDoubleRatchet"]),
     ],
     dependencies: [
         .package(url: "https://github.com/krzyzanowskim/CryptoSwift", from: "1.8.2")
@@ -19,11 +19,11 @@ let package = Package(
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "libsig_doubleratchet_smswithoutborders",
+            name: "SwobDoubleRatchet",
             dependencies: ["CryptoSwift"]),
         .testTarget(
-            name: "libsig_doubleratchet_smswithoutbordersTests",
-            dependencies: ["libsig_doubleratchet_smswithoutborders"]
+            name: "SwobDoubleRatchetTest",
+            dependencies: ["SwobDoubleRatchet"]
         ),
     ]
 )

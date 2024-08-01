@@ -10,7 +10,7 @@ import Testing
 import CryptoKit
 import XCTest
 
-@testable import libsig_doubleratchet_smswithoutborders
+@testable import SwobDoubleRatchet
 
 struct smswithoutborders_libsig_doubleratchet_Test {
     

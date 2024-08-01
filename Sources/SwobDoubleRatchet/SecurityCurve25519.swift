@@ -9,7 +9,7 @@ import CryptoKit
 import Foundation
 
 /// An error we can throw when something goes wrong.
-class SecurityCurve25519 {
+public class SecurityCurve25519 {
     enum Exceptions: Error {
         case DuplicateKeys
         case FailedToStoreItem
