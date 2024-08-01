@@ -35,6 +35,10 @@ public class States: Equatable {
     
     var MKSKIPPED: [Commons.Pair: [UInt8]] = [:]
     
+    init() {
+        
+    }
+    
     func serialized() -> Data {
         let privateKey = self.DHs!.rawRepresentation.base64EncodedString()
         
