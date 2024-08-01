@@ -22,7 +22,7 @@ extension Array where Element == UInt8 {
 class States: Equatable {
     
     var DHs: Curve25519.KeyAgreement.PrivateKey? = nil
-    var DHr: Curve25519.KeyAgreement.PrivateKey.PublicKey? = nil
+    var DHr: Curve25519.KeyAgreement.PublicKey? = nil
     
     var RK: [UInt8]? = nil
     var CKs: [UInt8]? = nil
