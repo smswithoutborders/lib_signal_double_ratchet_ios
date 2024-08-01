@@ -9,7 +9,7 @@ import Foundation
 import CryptoKit
 import CryptoSwift
 
-class RatchetProtocols {
+public class RatchetProtocols {
     static func DHRatchet(state: States, header: HEADERS, keystoreAlias: String? = nil) throws {
         state.PN = state.Ns
         state.Ns = 0

@@ -9,7 +9,7 @@ import Foundation
 import CryptoKit
 import CryptoSwift
 
-class CryptoHelper {
+public class CryptoHelper {
     
     enum CryptoHelperError : Error {
         case invalidMac

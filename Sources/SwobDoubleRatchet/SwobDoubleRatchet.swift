@@ -9,7 +9,7 @@
 
 import CryptoKit
 
-class Ratchet {
+public class Ratchet {
     enum RatchetErrors: Error {
         case maxSkipExceeded
     }

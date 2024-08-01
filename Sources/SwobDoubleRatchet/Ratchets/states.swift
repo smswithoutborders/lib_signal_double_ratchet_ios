@@ -19,7 +19,7 @@ extension Array where Element == UInt8 {
     }
 }
 
-class States: Equatable {
+public class States: Equatable {
     
     var DHs: Curve25519.KeyAgreement.PrivateKey? = nil
     var DHr: Curve25519.KeyAgreement.PublicKey? = nil

@@ -8,7 +8,7 @@
 import Foundation
 
 
-class Commons {
+public class Commons {
     
     class Pair : Hashable, Equatable, Encodable, Decodable {
         init(first: [UInt8], second: Int) {

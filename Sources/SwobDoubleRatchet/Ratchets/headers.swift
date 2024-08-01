@@ -9,7 +9,7 @@ import Foundation
 import CryptoKit
 
 
-class HEADERS : Equatable {
+public class HEADERS : Equatable {
     var dh: Curve25519.KeyAgreement.PublicKey
     
     var PN: UInt32 = 0
