@@ -16,13 +16,13 @@ public class HEADERS : Equatable {
     
     var N: UInt32 = 0
     
-    init(dhPair: Curve25519.KeyAgreement.PublicKey, PN: UInt32, N: UInt32) {
+    public init(dhPair: Curve25519.KeyAgreement.PublicKey, PN: UInt32, N: UInt32) {
         self.dh = dhPair
         self.PN = PN
         self.N = N
     }
     
-    func serialize() -> Data {
+    public func serialize() -> Data {
         // Convert PN to Data
         var bytesPN = Data(count: 4)
         bytesPN.withUnsafeMutableBytes {
@@ -57,7 +57,7 @@ public class HEADERS : Equatable {
         return result
     }
 
-    static func deserialize(serializedData: Data) -> HEADERS? {
+    public static func deserialize(serializedData: Data) -> HEADERS? {
         var data = serializedData
         
         // Extract length
