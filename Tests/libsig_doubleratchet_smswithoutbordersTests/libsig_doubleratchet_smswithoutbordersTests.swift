@@ -1,5 +1,4 @@
-import Testing
-import CryptoKit
+
 //
 //  smswithoutborders_libsig_doubleratchet_Test.swift
 //  smswithoutborders_libsig_doubleratchet_Test
@@ -8,6 +7,7 @@ import CryptoKit
 //
 
 import Testing
+import CryptoKit
 import XCTest
 
 @testable import libsig_doubleratchet_smswithoutborders
@@ -15,7 +15,6 @@ import XCTest
 struct smswithoutborders_libsig_doubleratchet_Test {
     
     var privateKey = Curve25519.KeyAgreement.PrivateKey()
-    
 
     @Test func testHeaders() async throws {
         
@@ -123,7 +122,6 @@ struct smswithoutborders_libsig_doubleratchet_Test {
             keystoreAlias: nil)
         
         XCTAssertEqual(originalText, plainText)
-        
         
         // Skipped messages
         for i in 0..<10 {
