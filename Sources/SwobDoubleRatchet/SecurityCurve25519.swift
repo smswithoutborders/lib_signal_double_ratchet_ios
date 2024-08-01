@@ -76,7 +76,7 @@ public class SecurityCurve25519 {
     }
     
     
-    static public func calculateSharedSecret( privateKey: Curve25519.KeyAgreement.PrivateKey,
+     public static func calculateSharedSecret( privateKey: Curve25519.KeyAgreement.PrivateKey,
                                               publicKey: Curve25519.KeyAgreement.PublicKey) throws -> SymmetricKey {
         
         do {

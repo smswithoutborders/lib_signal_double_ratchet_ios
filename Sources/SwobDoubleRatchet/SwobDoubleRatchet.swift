@@ -15,7 +15,7 @@ public class Ratchet {
     }
     
     static private let MAX_SKIP = 100
-    static func aliceInit(state: States,
+    public static func aliceInit(state: States,
                           SK: [UInt8],
                           bobDhPubKey: Curve25519.KeyAgreement.PublicKey,
                           keystoreAlias: String?) throws {
@@ -30,7 +30,7 @@ public class Ratchet {
         state.MKSKIPPED = [:]
     }
     
-    static func bobInit(state: States, SK: [UInt8], bobKeyPair: Curve25519.KeyAgreement.PrivateKey) {
+    public static func bobInit(state: States, SK: [UInt8], bobKeyPair: Curve25519.KeyAgreement.PrivateKey) {
         state.DHs = bobKeyPair
         state.DHr = nil
         state.RK = SK
@@ -42,7 +42,7 @@ public class Ratchet {
         state.MKSKIPPED = [:]
     }
     
-    static func encrypt(state: States, data: [UInt8], AD: [UInt8]) throws -> (header: HEADERS, cipherText: [UInt8]) {
+    public static func encrypt(state: States, data: [UInt8], AD: [UInt8]) throws -> (header: HEADERS, cipherText: [UInt8]) {
         var mk: [UInt8]
         (state.CKs, mk) = try RatchetProtocols.KDF_CK(ck: state.CKs!)
         let header = HEADERS(dhPair: state.DHs!.publicKey, PN: UInt32(state.PN), N: UInt32(state.Ns))
@@ -54,7 +54,7 @@ public class Ratchet {
                     associatedData: RatchetProtocols.CONCAT(AD: AD, headers: header)))
     }
     
-    static func decrypt(state: States, header: HEADERS, cipherText: [UInt8], AD: [UInt8], keystoreAlias: String?) throws -> [UInt8] {
+    public static func decrypt(state: States, header: HEADERS, cipherText: [UInt8], AD: [UInt8], keystoreAlias: String?) throws -> [UInt8] {
         let plaintext = try trySkippedMessageKeys(state: state, header: header, cipherText: cipherText, AD: AD)
         if plaintext != nil {
             return plaintext!
