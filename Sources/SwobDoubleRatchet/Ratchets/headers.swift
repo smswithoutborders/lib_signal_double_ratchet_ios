@@ -38,18 +38,8 @@ public class HEADERS : Equatable {
         // Convert public key to Data
         let pubKey = dh.rawRepresentation
         
-        // Compute total length
-        let len = UInt32(4 + bytesPN.count + bytesN.count + pubKey.count)
-        
-        // Convert length to Data
-        var bytesLen = Data(count: 4)
-        bytesLen.withUnsafeMutableBytes {
-            $0.storeBytes(of: len.littleEndian, as: UInt32.self)
-        }
-        
         // Concatenate all Data components
         var result = Data()
-        result.append(bytesLen)
         result.append(bytesPN)
         result.append(bytesN)
         result.append(pubKey)
@@ -59,13 +49,6 @@ public class HEADERS : Equatable {
 
     public static func deserialize(serializedData: Data) -> HEADERS? {
         var data = serializedData
-        
-        // Extract length
-        guard data.count >= 4 else { return nil }
-        let len = data.withUnsafeBytes {
-            $0.load(fromByteOffset: 0, as: UInt32.self)
-        }.littleEndian
-        data.removeFirst(4)
         
         // Extract PN
         guard data.count >= 4 else { return nil }
