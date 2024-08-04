@@ -49,7 +49,7 @@ public class RatchetProtocols {
             password: rk,
             salt: dh,
             info: info.bytes,
-             keyLength: 32*2)
+            keyLength: 32*2, variant: .sha2(.sha512))
             .calculate().withUnsafeBytes {
                 return (Array(Array($0)[0..<32]), Array(Array($0)[32..<64]))
             }
