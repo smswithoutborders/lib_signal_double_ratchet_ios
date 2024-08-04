@@ -23,8 +23,7 @@ public class CryptoHelper {
         
         let hkdfOutput = try HKDF(password: mk,
              salt: salt,
-             info: info,
-             keyLength: len)
+             info: info, keyLength: len, variant: .sha2(.sha512))
         .calculate()
         
         let key = Array(hkdfOutput[0..<32])
