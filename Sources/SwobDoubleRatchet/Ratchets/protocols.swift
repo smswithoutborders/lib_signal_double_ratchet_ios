@@ -46,8 +46,8 @@ public class RatchetProtocols {
         let info = "KDF_RK"
         
         return try HKDF(
-            password: rk,
-            salt: dh,
+            password: dh,
+            salt: rk,
             info: info.bytes,
             keyLength: 32*2, variant: .sha2(.sha512))
             .calculate().withUnsafeBytes {
@@ -65,7 +65,6 @@ public class RatchetProtocols {
         let mk = try HMAC(key: ck, 
                           variant: .sha2(.sha256)).authenticate(bytes2)
 //        return (Data(_ck), Data(mk))
-        
         return (_ck, mk)
     }
     
