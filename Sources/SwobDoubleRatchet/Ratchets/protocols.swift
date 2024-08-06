@@ -27,7 +27,6 @@ public class RatchetProtocols {
         (state.RK, state.CKs) = try KDF_RK(rk: state.RK!, dh: sharedSecret)
     }
 
-    
     static func GENERATE_DH(keystoreAlias: String? = nil) throws -> Curve25519.KeyAgreement.PrivateKey {
         let (privateKey, secKey) = try SecurityCurve25519.generateKeyPair(keystoreAlias: keystoreAlias)
         return privateKey

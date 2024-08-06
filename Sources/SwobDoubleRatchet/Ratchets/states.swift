@@ -39,7 +39,7 @@ public class States: Equatable {
         
     }
     
-    func serialized() -> Data {
+    public func serialized() -> Data {
         let privateKey = self.DHs!.rawRepresentation.base64EncodedString()
         
         let publicKey = self.DHs!.publicKey.rawRepresentation.base64EncodedString()
