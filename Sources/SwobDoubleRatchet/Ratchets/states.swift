@@ -42,7 +42,8 @@ public class States: Equatable {
     public func serialized() -> Data {
         let privateKey = self.DHs!.rawRepresentation.base64EncodedString()
         
-        let publicKey = self.DHs!.publicKey.rawRepresentation.base64EncodedString()
+        let publicKey = self.DHr!.rawRepresentation.base64EncodedString()
+        print(publicKey)
         
         var data = Data()
         data.append(String(Ns).data(using: .utf8)!)
@@ -60,6 +61,7 @@ public class States: Equatable {
         data.append(privateKey.data(using: .utf8)!)
         data.append(" ".data(using: .utf8)!)
         data.append(publicKey.data(using: .utf8)!)
+        data.append(" ".data(using: .utf8)!)
 
         let encoder = JSONEncoder()
         if let encoded = try? encoder.encode(MKSKIPPED) {
@@ -77,22 +79,35 @@ public class States: Equatable {
         guard let string = String(data: data, encoding: .utf8) else { return nil }
         let components = string.split(separator: " ")
         
-        guard components.count >= 9 else { return nil }
+        guard components.count >= 7 else { return nil }
         
         state.Ns = Int(components[0])!
         state.Nr = Int(components[1])!
         state.PN = Int(components[2])!
         
         state.RK = Array<UInt8>.fromBase64(String(components[3]))!
-        state.CKs = Array<UInt8>.fromBase64(String(components[4]))!
-        state.CKr = Array<UInt8>.fromBase64(String(components[5]))!
         
-        let privateKey = Array<UInt8>.fromBase64(String(components[6]))
-        let publicKey = Array<UInt8>.fromBase64(String(components[7]))
+        var indexer = 3
+        if components.count == 7 {
+            state.CKs = []
+            state.CKr = []
+        } else {
+            indexer += 1
+            state.CKs = Array<UInt8>.fromBase64(String(components[indexer]))!
+            indexer += 1
+            state.CKr = Array<UInt8>.fromBase64(String(components[indexer]))!
+        }
+        
+        indexer += 1
+        let privateKey = Array<UInt8>.fromBase64(String(components[indexer]))
+        indexer += 1
+        let publicKey = Array<UInt8>.fromBase64(String(components[indexer]))
+        
         state.DHs = try Curve25519.KeyAgreement.PrivateKey.init(rawRepresentation: privateKey!)
         state.DHr = try Curve25519.KeyAgreement.PublicKey.init(rawRepresentation: publicKey!)
-
-        if let mkSkippedData = Data(base64Encoded: String(components[8])),
+        
+        indexer += 1
+        if let mkSkippedData = Data(base64Encoded: String(components[indexer])),
            let decodedDict = try? JSONDecoder().decode([Commons.Pair: [UInt8]].self, from: mkSkippedData) {
             state.MKSKIPPED = decodedDict
         }

@@ -165,7 +165,7 @@ struct smswithoutborders_libsig_doubleratchet_Test {
             clientPublishPubKey = clientPublishPrivateKey!.publicKey.rawRepresentation.base64EncodedString()
             print(clientPublishPubKey)
             
-            let peerpubkey = "K8o0gyCYX016Jx3HoinPjuJNgbYFoBNiCmdde7s35i0="
+            let peerpubkey = "Kg1M2mfTMKU2zPTelt9+YsP8umvrFgwWVJ+XVwbgDG4="
             let peerPublishPublicKey = try Curve25519.KeyAgreement.PublicKey(
                 rawRepresentation: Data(base64Encoded: peerpubkey)!)
             
@@ -179,7 +179,7 @@ struct smswithoutborders_libsig_doubleratchet_Test {
             try Ratchet.aliceInit(state: state,
                               SK: publishingSharedKey,
                               bobDhPubKey: peerPublishPublicKey, keystoreAlias: nil)
-            let (header, ciphertext) = try Ratchet.encrypt(state: state, data: "KAAAAAAAAAAAAAAA1DaCNuDPbBa8I2cFnzsKRW3BTArlUvB/Zdqw+0KZiEWonv4WEP8KtnIFj9LvWrRHSwMQNVMR2f0le2gGtywwpFmJrqcXz6Gk594hiQNo+N4=".bytes, AD: peerPublishPublicKey.rawRepresentation.bytes)
+            var (header, ciphertext) = try Ratchet.encrypt(state: state, data: "Hello world".bytes, AD: peerPublishPublicKey.rawRepresentation.bytes)
             
             var bytesHeaderLen = Data(count: 4)
             bytesHeaderLen.withUnsafeMutableBytes {
@@ -192,8 +192,22 @@ struct smswithoutborders_libsig_doubleratchet_Test {
             
             print("Cipher text: " + Data(ciphertext).base64EncodedString() + "\n")
             print("Header: " + header.serialize().base64EncodedString() + "\n")
-            print("Payload: " + data.base64EncodedString())
+            print("Payload: " + data.base64EncodedString() + "\n")
             
+            (header, ciphertext) = try Ratchet.encrypt(state: state, data: "Hello world 1".bytes, AD: peerPublishPublicKey.rawRepresentation.bytes)
+            
+            bytesHeaderLen = Data(count: 4)
+            bytesHeaderLen.withUnsafeMutableBytes {
+                $0.storeBytes(of: UInt32(header.serialize().count).littleEndian, as: UInt32.self)
+            }
+            
+            data = Data()
+            data.append(bytesHeaderLen)
+            data.append(header.serialize())
+            data.append(Data(ciphertext))
+            print("Cipher text: " + Data(ciphertext).base64EncodedString() + "\n")
+            print("Header: " + header.serialize().base64EncodedString() + "\n")
+            print("Payload: " + data.base64EncodedString())
         } catch {
             throw error
         }
