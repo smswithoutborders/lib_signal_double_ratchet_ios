@@ -57,15 +57,15 @@ struct smswithoutborders_libsig_doubleratchet_Test {
         states.DHs = privateKey
         states.DHr = privateKey.publicKey
         
-        states.RK = "RK".data(using: .utf8)?.withUnsafeBytes { data in
+        states.RK = ("RK".data(using: .utf8)?.withUnsafeBytes { data in
             return Array(data)
-        }
-        states.CKs = "CKs".data(using: .utf8)?.withUnsafeBytes { data in
+        })!
+        states.CKs = ("CKs".data(using: .utf8)?.withUnsafeBytes { data in
             return Array(data)
-        }
-        states.CKr = "CKr".data(using: .utf8)?.withUnsafeBytes { data in
+        })!
+        states.CKr = ("CKr".data(using: .utf8)?.withUnsafeBytes { data in
             return Array(data)
-        }
+        })!
         states.MKSKIPPED = [Commons.Pair(first: rprikey, second: 0):d!, Commons.Pair(first:rpubkey, second: 1): d!]
         
         let sStates = states.serialized()

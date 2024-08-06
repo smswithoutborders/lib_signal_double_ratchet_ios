@@ -23,7 +23,7 @@ public class Ratchet {
         state.DHr = bobDhPubKey
         (state.RK, state.CKs) = try RatchetProtocols.KDF_RK(rk: SK,
             dh: try RatchetProtocols.DH(privateKey: state.DHs!, peerPublicKey: state.DHr!))
-        state.CKr = nil
+        state.CKr = []
         state.Ns = 0
         state.Nr = 0
         state.PN = 0
@@ -34,8 +34,8 @@ public class Ratchet {
         state.DHs = bobKeyPair
         state.DHr = nil
         state.RK = SK
-        state.CKs = nil
-        state.CKr = nil
+        state.CKs = []
+        state.CKr = []
         state.Ns = 0
         state.Nr = 0
         state.PN = 0
@@ -44,7 +44,7 @@ public class Ratchet {
     
     public static func encrypt(state: States, data: [UInt8], AD: [UInt8]) throws -> (header: HEADERS, cipherText: [UInt8]) {
         var mk: [UInt8]
-        (state.CKs, mk) = try RatchetProtocols.KDF_CK(ck: state.CKs!)
+        (state.CKs, mk) = try RatchetProtocols.KDF_CK(ck: state.CKs)
         let header = HEADERS(dhPair: state.DHs!.publicKey, PN: UInt32(state.PN), N: UInt32(state.Ns))
         state.Ns += 1
         return (header,
@@ -67,7 +67,7 @@ public class Ratchet {
 
         try skipMessageKeys(state: state, until: Int(header.N))
         let mk: [UInt8]
-        (state.CKr, mk) = try RatchetProtocols.KDF_CK(ck: state.CKr!)
+        (state.CKr, mk) = try RatchetProtocols.KDF_CK(ck: state.CKr)
         state.Nr += 1
         return try RatchetProtocols.DECRYPT(mk: mk, cipherText: cipherText, associatedData: RatchetProtocols.CONCAT(AD: AD, headers: header))
     }
@@ -96,7 +96,7 @@ public class Ratchet {
                     return Array(data)
                 }
                 let mk: [UInt8]
-                (state.CKr, mk) = try RatchetProtocols.KDF_CK(ck: state.CKr!)
+                (state.CKr, mk) = try RatchetProtocols.KDF_CK(ck: state.CKr)
                 state.MKSKIPPED[Commons.Pair(first: dhrBytes, second: state.Nr)] = mk
                 state.Nr += 1
             }

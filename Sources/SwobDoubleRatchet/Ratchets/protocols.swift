@@ -19,12 +19,12 @@ public class RatchetProtocols {
         var sharedSecret = try DH(privateKey: state.DHs!, peerPublicKey: state.DHr!).withUnsafeBytes { data in
             return Array(data)
         }
-        (state.RK, state.CKr) = try KDF_RK(rk: state.RK!, dh: sharedSecret)
+        (state.RK, state.CKr) = try KDF_RK(rk: state.RK, dh: sharedSecret)
         state.DHs = try GENERATE_DH(keystoreAlias: keystoreAlias)
         sharedSecret = try DH(privateKey: state.DHs!, peerPublicKey: state.DHr!).withUnsafeBytes { data in
             return Array(data)
         }
-        (state.RK, state.CKs) = try KDF_RK(rk: state.RK!, dh: sharedSecret)
+        (state.RK, state.CKs) = try KDF_RK(rk: state.RK, dh: sharedSecret)
     }
 
     static func GENERATE_DH(keystoreAlias: String? = nil) throws -> Curve25519.KeyAgreement.PrivateKey {
