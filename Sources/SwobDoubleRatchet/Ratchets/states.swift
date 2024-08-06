@@ -71,7 +71,7 @@ public class States: Equatable {
         return data
     }
     
-    static func deserialize(data: Data) throws -> States? {
+    public static func deserialize(data: Data) throws -> States? {
         let state = States()
         
         guard let string = String(data: data, encoding: .utf8) else { return nil }
