@@ -60,9 +60,9 @@ struct smswithoutborders_libsig_doubleratchet_Test {
         states.RK = ("RK".data(using: .utf8)?.withUnsafeBytes { data in
             return Array(data)
         })!
-        states.CKs = ("CKs".data(using: .utf8)?.withUnsafeBytes { data in
-            return Array(data)
-        })!
+//        states.CKs = ("CKs".data(using: .utf8)?.withUnsafeBytes { data in
+//            return Array(data)
+//        })!
         states.CKr = ("CKr".data(using: .utf8)?.withUnsafeBytes { data in
             return Array(data)
         })!

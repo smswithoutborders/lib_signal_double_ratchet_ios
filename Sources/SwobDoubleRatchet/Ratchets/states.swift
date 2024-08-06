@@ -57,13 +57,13 @@ public class States: Equatable {
         if CKs != nil {
             data.append(CKs!.toBase64().data(using: .utf8)!)
         } else {
-            data.append([0x0].toBase64().data(using: .utf8)!)
+            data.append(Data([0x0]).base64EncodedString().data(using: .utf8)!)
         }
         data.append(" ".data(using: .utf8)!)
         if CKr != nil {
             data.append(CKr!.toBase64().data(using: .utf8)!)
         } else {
-            data.append([0x0].toBase64().data(using: .utf8)!)
+            data.append(Data([0x0]).base64EncodedString().data(using: .utf8)!)
         }
         data.append(" ".data(using: .utf8)!)
         data.append(privateKey.data(using: .utf8)!)
