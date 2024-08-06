@@ -24,9 +24,9 @@ public class States: Equatable {
     var DHs: Curve25519.KeyAgreement.PrivateKey? = nil
     var DHr: Curve25519.KeyAgreement.PublicKey? = nil
     
-    var RK: [UInt8]? = nil
-    var CKs: [UInt8]? = nil
-    var CKr: [UInt8]? = nil
+    var RK: [UInt8] = []
+    var CKs: [UInt8] = []
+    var CKr: [UInt8] = []
     
     var Ns = 0
     var Nr = 0
@@ -51,11 +51,11 @@ public class States: Equatable {
         data.append(" ".data(using: .utf8)!)
         data.append(String(PN).data(using: .utf8)!)
         data.append(" ".data(using: .utf8)!)
-        data.append(RK!.toBase64().data(using: .utf8)!)
+        data.append(RK.toBase64().data(using: .utf8)!)
         data.append(" ".data(using: .utf8)!)
-        data.append(CKs!.toBase64().data(using: .utf8)!)
+        data.append(CKs.toBase64().data(using: .utf8)!)
         data.append(" ".data(using: .utf8)!)
-        data.append(CKr!.toBase64().data(using: .utf8)!)
+        data.append(CKr.toBase64().data(using: .utf8)!)
         data.append(" ".data(using: .utf8)!)
         data.append(privateKey.data(using: .utf8)!)
         data.append(" ".data(using: .utf8)!)
@@ -83,9 +83,9 @@ public class States: Equatable {
         state.Nr = Int(components[1])!
         state.PN = Int(components[2])!
         
-        state.RK = Array<UInt8>.fromBase64(String(components[3]))
-        state.CKs = Array<UInt8>.fromBase64(String(components[4]))
-        state.CKr = Array<UInt8>.fromBase64(String(components[5]))
+        state.RK = Array<UInt8>.fromBase64(String(components[3]))!
+        state.CKs = Array<UInt8>.fromBase64(String(components[4]))!
+        state.CKr = Array<UInt8>.fromBase64(String(components[5]))!
         
         let privateKey = Array<UInt8>.fromBase64(String(components[6]))
         let publicKey = Array<UInt8>.fromBase64(String(components[7]))
