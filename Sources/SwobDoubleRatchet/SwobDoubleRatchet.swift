@@ -23,7 +23,7 @@ public class Ratchet {
         state.DHr = bobDhPubKey
         (state.RK, state.CKs) = try RatchetProtocols.KDF_RK(rk: SK,
             dh: try RatchetProtocols.DH(privateKey: state.DHs!, peerPublicKey: state.DHr!))
-        state.CKr = []
+        state.CKr = nil
         state.Ns = 0
         state.Nr = 0
         state.PN = 0
@@ -34,8 +34,8 @@ public class Ratchet {
         state.DHs = bobKeyPair
         state.DHr = nil
         state.RK = SK
-        state.CKs = []
-        state.CKr = []
+        state.CKs = nil
+        state.CKr = nil
         state.Ns = 0
         state.Nr = 0
         state.PN = 0
