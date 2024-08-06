@@ -25,8 +25,8 @@ public class States: Equatable {
     var DHr: Curve25519.KeyAgreement.PublicKey? = nil
     
     var RK: [UInt8] = []
-    var CKs: [UInt8] = []
-    var CKr: [UInt8] = []
+    var CKs: [UInt8]? = nil
+    var CKr: [UInt8]? = nil
     
     var Ns = 0
     var Nr = 0
@@ -54,9 +54,17 @@ public class States: Equatable {
         data.append(" ".data(using: .utf8)!)
         data.append(RK.toBase64().data(using: .utf8)!)
         data.append(" ".data(using: .utf8)!)
-        data.append(CKs.toBase64().data(using: .utf8)!)
+        if CKs != nil {
+            data.append(CKs!.toBase64().data(using: .utf8)!)
+        } else {
+            data.append([0x0].toBase64().data(using: .utf8)!)
+        }
         data.append(" ".data(using: .utf8)!)
-        data.append(CKr.toBase64().data(using: .utf8)!)
+        if CKr != nil {
+            data.append(CKr!.toBase64().data(using: .utf8)!)
+        } else {
+            data.append([0x0].toBase64().data(using: .utf8)!)
+        }
         data.append(" ".data(using: .utf8)!)
         data.append(privateKey.data(using: .utf8)!)
         data.append(" ".data(using: .utf8)!)
@@ -79,35 +87,29 @@ public class States: Equatable {
         guard let string = String(data: data, encoding: .utf8) else { return nil }
         let components = string.split(separator: " ")
         
-        guard components.count >= 7 else { return nil }
+        guard components.count >= 9 else { return nil }
         
         state.Ns = Int(components[0])!
         state.Nr = Int(components[1])!
         state.PN = Int(components[2])!
         
         state.RK = Array<UInt8>.fromBase64(String(components[3]))!
-        
-        var indexer = 3
-        if components.count == 7 {
-            state.CKs = []
-            state.CKr = []
-        } else {
-            indexer += 1
-            state.CKs = Array<UInt8>.fromBase64(String(components[indexer]))!
-            indexer += 1
-            state.CKr = Array<UInt8>.fromBase64(String(components[indexer]))!
+        state.CKs = Array<UInt8>.fromBase64(String(components[4]))!
+        if state.CKs == [0x0] {
+            state.CKs = nil
         }
-        
-        indexer += 1
-        let privateKey = Array<UInt8>.fromBase64(String(components[indexer]))
-        indexer += 1
-        let publicKey = Array<UInt8>.fromBase64(String(components[indexer]))
+        state.CKr = Array<UInt8>.fromBase64(String(components[5]))!
+        if state.CKr == [0x0] {
+            state.CKr = nil
+        }
+
+        let privateKey = Array<UInt8>.fromBase64(String(components[6]))
+        let publicKey = Array<UInt8>.fromBase64(String(components[7]))
         
         state.DHs = try Curve25519.KeyAgreement.PrivateKey.init(rawRepresentation: privateKey!)
         state.DHr = try Curve25519.KeyAgreement.PublicKey.init(rawRepresentation: publicKey!)
         
-        indexer += 1
-        if let mkSkippedData = Data(base64Encoded: String(components[indexer])),
+        if let mkSkippedData = Data(base64Encoded: String(components[8])),
            let decodedDict = try? JSONDecoder().decode([Commons.Pair: [UInt8]].self, from: mkSkippedData) {
             state.MKSKIPPED = decodedDict
         }
